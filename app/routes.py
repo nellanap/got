@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, session
+from flask import flash, redirect, render_template, request, session
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -20,20 +20,25 @@ def login():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Ensure username was submitted
-        #if not request.form.get("username"):
-        #    return apology("must provide username", 403)
+        #Ensure username was submitted
+        if not request.form.get("username"):
+            flash("Must provide username")
+            return render_template("login.html")
 
         # Ensure password was submitted
-        #elif not request.form.get("password"):
-        #    return apology("must provide password", 403)
+        elif not request.form.get("password"):
+            flash("Must provide password")
+            return render_template("login.html")
 
         # Query database for username
         user = User.query.filter_by(username=request.form.get("username")).first()
-        
-        # Ensure username exists and password is correct
-        #if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-        #    return apology("invalid username and/or password", 403)
+
+        # TODO Ensure username exists
+
+        # Ensure password is correct
+        if not check_password_hash(user.password_hash, request.form.get("password")):
+            flash("Invalid password")
+            return render_template("login.html")
 
         # Remember which user has logged in
         session["user_id"] = user.id
@@ -64,21 +69,22 @@ def register():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
+        # TODO Ensure username not already taken
+
         # Ensure username was submitted
-        #if not request.form.get("username"):
-        #    return apology("must provide username")
+        if not request.form.get("username"):
+            flash('Must provide username')
+            return render_template("register.html")
 
         # Ensure password was submitted
-        #elif not request.form.get("password"):
-        #    return apology("must provide password")
+        elif not request.form.get("password"):
+            flash('Must provide password')
+            return render_template("register.html")
 
-        # Ensure password confirmation was submitted
-        #elif not request.form.get("confirmation"):
-        #    return apology("must provide password confirmation")
-
-        # Ensure password and confirmation are the same
-        #elif request.form.get("password") != request.form.get("confirmation"):
-        #    return apology("must provide same password and confirmation")
+        # Ensure email was submitted
+        elif not request.form.get("email"):
+            flash("Must provide email")
+            return render_template("register.html")
 
         # Add user to database
         username = request.form.get("username")
@@ -89,11 +95,8 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        #if not result:
-        #    return apology("must provide unique username")
-
         # login the user
-        # session["user_id"] = result
+        session["user_id"] = new_user.id
 
         return redirect("/")
 
