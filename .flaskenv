@@ -1,0 +1,2 @@
+FLASK_APP=got.py
+FLASK_DEBUG=1
