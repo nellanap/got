@@ -4,11 +4,24 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import app, db
 from app.models import User, Response
+from app.helpers import login_required, calculate_score, calculate_rank
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+
+    #users = User.query.all()
+    #for u in users:
+    #    u.score = calculate_score(Response.query.filter_by(author=u).first())
+    #db.session.commit()
+    #users = User.query.order_by(User.score.desc()).all()
+    submissions = Response.query.all()
+    for s in submissions:
+        s.score = calculate_score(s)
+        s.rank = calculate_rank(s.score)
+    db.session.commit()
+    submissions = Response.query.order_by(Response.score.desc()).all()
+    return render_template('index.html', submissions=submissions)
 
 
 
@@ -33,10 +46,11 @@ def login():
             flash("Must provide password")
             return render_template("login.html")
 
-        # Query database for username
+        # Query database for username and ensure username exists
         user = User.query.filter_by(username=request.form.get("username")).first()
-
-        # TODO Ensure username exists
+        if user is None:
+            flash("Username does not exist")
+            return render_template("login.html")
 
         # Ensure password is correct
         if not check_password_hash(user.password_hash, request.form.get("password")):
@@ -65,9 +79,11 @@ def logout():
 
 
 @app.route("/predict", methods=["GET", "POST"])
+@login_required
 def predict():
     """Fill out questionnaire"""
 
+    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         q1 = request.form.get("q1")
         q2 = request.form.get("q2")
@@ -108,6 +124,8 @@ def predict():
         db.session.commit()
 
         return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("predict.html")
 
@@ -120,6 +138,12 @@ def register():
     if request.method == "POST":
 
         # TODO Ensure username not already taken
+        users = User.query.all()
+        username = request.form.get("username")
+        for u in users:
+            if username == u.username:
+                flash('That username is already taken')
+                return render_template("register.html")
 
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -155,7 +179,35 @@ def register():
         return render_template("register.html")
 
 @app.route("/rules", methods=["GET", "POST"])
+@login_required
 def rules():
     """Rules"""
 
     return render_template("rules.html")
+
+
+
+@app.route("/scores", methods=["GET", "POST"])
+@login_required
+def scores():
+    """Show Scores"""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        author = User.query.filter_by(username=request.form.get("username")).first()
+        response = Response.query.filter_by(author=author).first()
+        if response is None:
+            flash("That user hasn't made any predictions")
+            return render_template("rules.html")
+        score = calculate_score(response)
+        return render_template("scores.html", author=author, response=response, score=score)
+
+    # User reached route via GET (as by clicking a link)
+    else:
+        author = User.query.filter_by(id=session["user_id"]).first()
+        response = Response.query.filter_by(author=author).first()
+        if response is None:
+            flash("Make your predictions before seeing your score")
+            return render_template("predict.html")
+        score = calculate_score(response)
+        return render_template("scores.html", author=author, response=response, score=score)
