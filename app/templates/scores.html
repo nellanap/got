@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block main %}
-{{ author.username }}'s score is {{ score }}
+
+<h1>{{ author.username }}'s score is {{ score }}</h1>
+<br>
 
 <form class="form-inline" action="/scores" method="post">
     <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Username" name="username">

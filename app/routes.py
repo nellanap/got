@@ -10,11 +10,7 @@ from app.helpers import login_required, calculate_score, calculate_rank, calcula
 @app.route('/index')
 def index():
 
-    #users = User.query.all()
-    #for u in users:
-    #    u.score = calculate_score(Response.query.filter_by(author=u).first())
-    #db.session.commit()
-    #users = User.query.order_by(User.score.desc()).all()
+    # Gather responses, calculate scores, and order by score. 
     submissions = Response.query.all()
     for s in submissions:
         s.score = calculate_score(s)
@@ -85,6 +81,14 @@ def predict():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        author = User.query.filter_by(id=session["user_id"]).first()
+        response = Response.query.filter_by(author=author).first()
+
+        # Check if user has made predictions before
+        if response is not None:
+            flash("You can only make one set of predictions")
+            return render_template("rules.html")
+
         q1 = request.form.get("q1")
         q2 = request.form.get("q2")
         q3 = request.form.get("q3")

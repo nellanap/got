@@ -2,36 +2,36 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 
 # Global variable for correct answers
-ans1 = 'Yes'
-ans2 = 'Yes'
-ans3 = 'Yes'
-ans4 = 'Yes'
-ans5 = 'Yes'
-ans6 = 'Yes'
-ans7 = 'Yes'
-ans8 = 'Yes'
-ans9 = 'Yes'
-ans10 = 'Yes'
-ans11 = 'Yes'
-ans12 = 'Yes'
-ans13 = 'Yes'
-ans14 = 'Yes'
-ans15 = 'Yes'
-ans16 = 'Daenerys'
-ans17 = 'Daenerys'
-ans18 = 'Jamie'
-ans19 = 'Jamie'
-ans20 = 'Yes'
-ans21 = 'Tyrion'
-ans22 = 'Jon'
-ans23 = 'Yes'
-ans24 = 'Hound'
-ans25 = 'Yes'
-ans26 = 'Yes'
-ans27 = 'Yes'
-ans28 = 'Yes'
-ans29 = 'Yes'
-ans30 = 'Yes'
+ans1 = 'TBD'
+ans2 = 'TBD'
+ans3 = 'TBD'
+ans4 = 'TBD'
+ans5 = 'TBD'
+ans6 = 'TBD'
+ans7 = 'TBD'
+ans8 = 'TBD'
+ans9 = 'TBD'
+ans10 = 'TBD'
+ans11 = 'TBD'
+ans12 = 'TBD'
+ans13 = 'TBD'
+ans14 = 'TBD'
+ans15 = 'TBD'
+ans16 = 'TBD'
+ans17 = 'TBD'
+ans18 = 'TBD'
+ans19 = 'TBD'
+ans20 = 'TBD'
+ans21 = 'TBD'
+ans22 = 'TBD'
+ans23 = 'TBD'
+ans24 = 'TBD'
+ans25 = 'TBD'
+ans26 = 'TBD'
+ans27 = 'TBD'
+ans28 = 'TBD'
+ans29 = 'TBD'
+ans30 = 'TBD'
 
 # Global variables for correct weights
 wgt1 = 5
@@ -134,66 +134,66 @@ def calculate_points(response):
 
 def calculate_score(response):
     score = 0
-    if response.q1 == 'Yes':
-        score = score + 5
-    if response.q2 == 'Yes':
-        score = score + 5
-    if response.q3 == 'Yes':
-        score = score + 3
-    if response.q4 == 'Yes':
-        score = score + 3
-    if response.q5 == 'Yes':
-        score = score + 2
-    if response.q6 == 'Yes':
-        score = score + 2
-    if response.q7 == 'Yes':
-        score = score + 2
-    if response.q8 == 'Yes':
-        score = score + 2
-    if response.q9 == 'Yes':
-        score = score + 2
-    if response.q10 == 'Yes':
-        score = score + 2
-    if response.q11 == 'Yes':
-        score = score + 2
-    if response.q12 == 'Yes':
-        score = score + 2
-    if response.q13 == 'Yes':
-        score = score + 1
-    if response.q14 == 'Yes':
-        score = score + 1
-    if response.q15 == 'Yes':
-        score = score + 1
-    if response.q16 == 'Daenerys':
-        score = score + 3
-    if response.q17 == 'Daenerys':
-        score = score + 5
-    if response.q18 == 'Jamie':
-        score = score + 3
-    if response.q19 == 'Jamie':
-        score = score + 2
-    if response.q20 == 'Yes':
-        score = score + 2
-    if response.q21 == 'Tyrion':
-        score = score + 2
-    if response.q22 == 'Jon':
-        score = score + 1
-    if response.q23 == 'Yes':
-        score = score + 1
-    if response.q24 == 'Hound':
-        score = score + 1
-    if response.q25 == 'Yes':
-        score = score + 2
-    if response.q26 == 'Yes':
-        score = score + 3
-    if response.q27 == 'Yes':
-        score = score + 2
-    if response.q28 == 'Yes':
-        score = score + 1
-    if response.q29 == 'Yes':
-        score = score + 2
-    if response.q30 == 'Yes':
-        score = score + 5
+    if response.q1 == ans1:
+        score = score + wgt1
+    if response.q2 == ans2:
+        score = score + wgt2
+    if response.q3 == ans3:
+        score = score + wgt3
+    if response.q4 == ans4:
+        score = score + wgt4
+    if response.q5 == ans5:
+        score = score + wgt5
+    if response.q6 == ans6:
+        score = score + wgt6
+    if response.q7 == ans7:
+        score = score + wgt7
+    if response.q8 == ans8:
+        score = score + wgt8
+    if response.q9 == ans9:
+        score = score + wgt9
+    if response.q10 == ans10:
+        score = score + wgt10
+    if response.q11 == ans11:
+        score = score + wgt11
+    if response.q12 == ans12:
+        score = score + wgt12
+    if response.q13 == ans13:
+        score = score + wgt13
+    if response.q14 == ans14:
+        score = score + wgt14
+    if response.q15 == ans15:
+        score = score + wgt15
+    if response.q16 == ans16:
+        score = score + wgt16
+    if response.q17 == ans17:
+        score = score + wgt17
+    if response.q18 == ans18:
+        score = score + wgt18
+    if response.q19 == ans19:
+        score = score + wgt19
+    if response.q20 == ans20:
+        score = score + wgt20
+    if response.q21 == ans21:
+        score = score + wgt21
+    if response.q22 == ans22:
+        score = score + wgt22
+    if response.q23 == ans23:
+        score = score + wgt23
+    if response.q24 == ans24:
+        score = score + wgt24
+    if response.q25 == ans25:
+        score = score + wgt25
+    if response.q26 == ans26:
+        score = score + wgt26
+    if response.q27 == ans27:
+        score = score + wgt27
+    if response.q28 == ans28:
+        score = score + wgt28
+    if response.q29 == ans29:
+        score = score + wgt29
+    if response.q30 == ans30:
+        score = score + wgt30
     return score
 
 def calculate_rank(score):
@@ -202,14 +202,14 @@ def calculate_rank(score):
     if (score >= 20) and (score < 30):
         return 'Unsullied'
     if (score >= 30) and (score < 40):
-        return 'Brotherhood'
+        return 'Ironborn'
     if (score >= 40) and (score < 50):
-        return 'Iron Banker of Braavos'
+        return 'Night\'s Watch'
     if (score >= 50) and (score < 60):
-        return 'Nights Watch'
-    if (score >= 60) and (score < 65):
         return 'Maester'
-    if score == 65:
+    if (score >= 60) and (score < 66):
+        return 'Children of the Forest'
+    if score == 66:
         return 'Warg'
     if score == 67:
         return 'Greenseer'
