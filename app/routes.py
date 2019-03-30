@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import app, db
 from app.models import User, Response
-from app.helpers import login_required, calculate_score, calculate_rank
+from app.helpers import login_required, calculate_score, calculate_rank, calculate_points
 
 @app.route('/')
 @app.route('/index')
@@ -196,18 +196,24 @@ def scores():
     if request.method == "POST":
         author = User.query.filter_by(username=request.form.get("username")).first()
         response = Response.query.filter_by(author=author).first()
+
+        # Check if user has made predictions.
         if response is None:
             flash("That user hasn't made any predictions")
             return render_template("rules.html")
         score = calculate_score(response)
-        return render_template("scores.html", author=author, response=response, score=score)
+        points = calculate_points(response)
+        return render_template("scores.html", author=author, response=response, score=score, points=points)
 
     # User reached route via GET (as by clicking a link)
     else:
         author = User.query.filter_by(id=session["user_id"]).first()
         response = Response.query.filter_by(author=author).first()
+
+        # Check if user has made predictions.
         if response is None:
             flash("Make your predictions before seeing your score")
             return render_template("predict.html")
         score = calculate_score(response)
-        return render_template("scores.html", author=author, response=response, score=score)
+        points = calculate_points(response)
+        return render_template("scores.html", author=author, response=response, score=score, points=points)
