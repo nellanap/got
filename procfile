@@ -1,2 +1,1 @@
-web: gunicorn got:app
-heroku ps:scale web=1
+web: flask db upgrade; gunicorn got:app
