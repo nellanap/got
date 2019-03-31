@@ -10,7 +10,7 @@ from app.helpers import login_required, calculate_score, calculate_rank, calcula
 @app.route('/index')
 def index():
 
-    # Gather responses, calculate scores, and order by score. 
+    # Gather responses, calculate scores, and order by score.
     submissions = Response.query.all()
     for s in submissions:
         s.score = calculate_score(s)
@@ -144,9 +144,13 @@ def register():
         # TODO Ensure username not already taken
         users = User.query.all()
         username = request.form.get("username")
+        email = request.form.get("email")
         for u in users:
             if username == u.username:
                 flash('That username is already taken')
+                return render_template("register.html")
+            if email == u.email:
+                flash('That email is already taken')
                 return render_template("register.html")
 
         # Ensure username was submitted
