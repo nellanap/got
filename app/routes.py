@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, session
+from flask import flash, redirect, render_template, url_for, request, session
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -16,8 +16,13 @@ def index():
         s.score = calculate_score(s)
         s.rank = calculate_rank(s.score)
     db.session.commit()
-    submissions = Response.query.order_by(Response.score.desc()).all()
-    return render_template('index.html', submissions=submissions)
+
+    # Paginate submissions
+    page = request.args.get('page', 1, type=int)
+    submissions = Response.query.order_by(Response.score.desc()).paginate(page, 5, False)
+    next_url = url_for('index', page=submissions.next_num) if submissions.has_next else None
+    prev_url = url_for('index', page=submissions.prev_num) if submissions.has_prev else None
+    return render_template('index.html', submissions=submissions.items, next_url=next_url, prev_url=prev_url)
 
 
 

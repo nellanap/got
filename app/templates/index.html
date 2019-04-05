@@ -23,4 +23,14 @@ Home
         {% endfor %}
     </tbody>
 </table>
+<nav aria-label="Page navigation">
+    <ul class="pagination d-flex justify-content-around">
+        {% if prev_url %}
+        <li class="page-item"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+        {% endif %}
+        {% if next_url %}
+        <li class="page-item"><a class="page-link" href="{{ next_url }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}

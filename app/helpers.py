@@ -200,7 +200,7 @@ def calculate_rank(score):
     if (score >= 0) and (score < 20):
         return 'Stonemen'
     if (score >= 20) and (score < 30):
-        return 'Unsullied'
+        return 'Wildlings'
     if (score >= 30) and (score < 40):
         return 'Ironborn'
     if (score >= 40) and (score < 50):
